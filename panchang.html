@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Panchang & Suggested Stotra</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #ffcc33, #ff9933);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(to right, #ff9933, #ff6600);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px 18px;
+      border-radius: 25px;
+      box-shadow: 0 5px 12px rgba(255, 102, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .panchang-card {
+      background: #fff9e6;
+      padding: 60px;
+      border-radius: 30px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(255, 140, 0, 0.4);
+      width: 700px;
+      max-width: 90%;
+    }
+
+    h2 {
+      color: #cc5500;
+      font-size: 32px;
+      margin-bottom: 40px;
+    }
+
+    .info {
+      font-size: 24px;
+      color: #b34700;
+      margin: 20px 0;
+    }
+
+    .highlight {
+      font-weight: bold;
+      font-size: 28px;
+      color: #ff6600;
+    }
+
+    .note {
+      margin-top: 25px;
+      font-size: 16px;
+      color: #996600;
+      font-style: italic;
+    }
+  </style>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+</head>
+<body>
+  
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">⬅ Back</a>
+
+  <div class="panchang-card">
+    <h2>📅 Today’s Tithi & Suggested Stotra 🙏</h2>
+
+    <div class="info" id="date"></div>
+    <div class="info">Tithi: <span class="highlight" id="tithi"></span></div>
+    <div class="info">Stotra: <span class="highlight" id="stotra"></span></div>
+
+    <p class="note">✨ Data is static (demo for hackathon) ✨</p>
+  </div>
+
+  <script>
+    const panchangData = {
+    "2025-01-10": { event: "Pausha Putrada Ekadashi", stotra: "Vishnu Sahasranama" },
+      "2025-02-02": { event: "Basant Panchami", stotra: "Saraswati Vandana" },
+      "2025-02-26": { event: "Maha Shivaratri", stotra: "Rudrashtakam" },
+      "2025-03-30": { event: "Ugadi (Telugu New Year)", stotra: "Ugadi Mantra" },
+      "2025-04-06": { event: "Ram Navami", stotra: "Sri Ram Raksha Stotra" },
+      "2025-04-14": { event: "Vaisakhi / Bihu / Tamil New Year", stotra: "Mool Mantra" },
+      "2025-06-27": { event: "Ratha Yatra", stotra: "Jagannath Ashtakam" },
+      "2025-07-10": { event: "Guru Purnima", stotra: "Guru Stotram" },
+      "2025-07-30": { event: "Nag Panchami", stotra: "Nag Panchami Mantra" },
+      "2025-08-08": { event: "Varalakshmi Vrat", stotra: "Lakshmi Stotra" },
+      "2025-08-09": { event: "Raksha Bandhan", stotra: "Saptashati Mantra" },
+      "2025-08-16": { event: "Janmashtami", stotra: "Krishna Ashtakam" },
+      "2025-08-27": { event: "Ganesh Chaturthi", stotra: "Ganapati Atharvashirsha" },
+      "2025-09-04": { event: "Onam", stotra: "Vishnu Sahasranama" },
+      "2025-09-17": { event: "Vishwakarma Puja", stotra: "Vishwakarma Stotra" },
+      "2025-09-22": { event: "Navratri Begins", stotra: "Durga Saptashati" },
+      "2025-10-02": { event: "Dussehra", stotra: "Ravana Dahana Mantra" },
+      "2025-10-21": { event: "Diwali", stotra: "Lakshmi Ashtakam" },
+      "2025-11-05": { event: "Kartik Poornima", stotra: "Tripura Sundari Stotram" },
+      "2025-12-16": { event: "Dhanu Sankranti", stotra: "Surya Namaskar Mantra" }
+    };
+
+
+    function loadTithi() {
+      const today = new Date();
+      const dateKey = today.toISOString().split("T")[0];
+
+      const dateElement = document.getElementById("date");
+      const tithiElement = document.getElementById("tithi");
+      const stotraElement = document.getElementById("stotra");
+
+      dateElement.textContent = today.toDateString();
+
+      if (panchangData[dateKey]) {
+        tithiElement.textContent = panchangData[dateKey].tithi;
+        stotraElement.textContent = panchangData[dateKey].stotra;
+      } else {
+        tithiElement.textContent = "Everyday Devotion";
+        stotraElement.textContent = "Om Namah Shivaya";
+      }
+    }
+
+    loadTithi();
+  </script>
+
+</body>
+</html>

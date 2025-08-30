@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Prayer Reminder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #ffcc33, #ff9933);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
+    /* Back Button */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(to right, #ff9933, #ff6600);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .reminder-card {
+      background: #fff9e6;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+      width: 360px;
+      margin-top: 50px;
+    }
+
+    h2 {
+      color: #cc6600;
+      margin-bottom: 20px;
+    }
+
+    .info {
+      font-size: 16px;
+      color: #cc5500;
+      margin: 12px 0;
+    }
+
+    input[type="time"] {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ff9933;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(to right, #ff9933, #ff6600);
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #996600;
+    }
+  </style>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+</head>
+<body>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">⬅ Back</a>
+
+  <div class="reminder-card">
+    <h2>⏰ Daily Prayer Reminder 🙏</h2>
+
+    <input type="time" id="reminderTime">
+    <br>
+    <button onclick="setReminder()">Set Reminder</button>
+
+    <div class="info" id="status">No reminder set yet.</div>
+
+    <p class="note">Keep this tab open for reminders to work.</p>
+  </div>
+
+  <script>
+    let reminderTime = localStorage.getItem("reminderTime") || null;
+
+    function updateStatus() {
+      const status = document.getElementById("status");
+      if (reminderTime) {
+        status.textContent = `Reminder set for ${reminderTime}`;
+      } else {
+        status.textContent = "No reminder set yet.";
+      }
+    }
+
+    function setReminder() {
+      reminderTime = document.getElementById("reminderTime").value;
+      if (reminderTime) {
+        localStorage.setItem("reminderTime", reminderTime);
+        updateStatus();
+        alert(`✅ Reminder set for ${reminderTime}`);
+      }
+    }
+
+    // Check every minute
+    setInterval(() => {
+      if (!reminderTime) return;
+      const now = new Date();
+      const currentTime = now.toTimeString().slice(0,5); // HH:MM
+      if (currentTime === reminderTime) {
+        alert("🌅 Time for your prayer 🙏");
+      }
+    }, 60000);
+
+    updateStatus();
+  </script>
+
+</body>
+</html>

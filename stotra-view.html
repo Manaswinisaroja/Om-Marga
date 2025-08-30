@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stotra Details</title>
+  <style>
+    body { font-family: 'Georgia', serif; background: linear-gradient(135deg, #ffcc33 0%, #ff9933 100%); min-height: 100vh; padding: 20px; }
+    .container { max-width: 700px; margin: 40px auto; background: #fff9e6; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.12); padding: 30px; }
+    .deity-title { font-size: 2em; color: #cc6600; margin-bottom: 20px; text-align: center; }
+    .stotra-title { font-size: 1.5em; color: #ff8000; text-align: center; margin-bottom: 18px;}
+    .telugu-text, .english-text { font-weight: 600; font-size: 1.1em; margin-bottom: 14px; }
+    .meaning { background: #ffe066; padding: 14px; border-radius: 8px; color: #cc5500; font-size: 1em; }
+  </style>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+</head>
+<body>
+  
+  <div class="container">
+    <div id="stotraDetails"></div>
+  </div>
+  <script>
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+    const stotraDataRaw = getQueryParam('data');
+    let stotra;
+    try {
+      stotra = JSON.parse(decodeURIComponent(stotraDataRaw));
+    } catch {
+      stotra = null;
+    }
+    if (stotra) {
+      document.getElementById('stotraDetails').innerHTML = `
+        <div class="stotra-title">${stotra.name}</div>
+        <div class="telugu-text">${stotra.telugu.replace(/\n/g, "<br>")}</div>
+        <div class="english-text">${stotra.english.replace(/\n/g, "<br>")}</div>
+        <div class="meaning"><b>Meaning:</b> ${stotra.meaning}</div>
+      `;
+    } else {
+      document.getElementById('stotraDetails').innerHTML = '<p style="color:red;">Invalid or missing stotra data.</p>';
+    }
+  </script>
+</body>
+</html>

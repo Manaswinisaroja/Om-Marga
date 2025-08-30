@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pradakshina Counter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #ffcc33, #ff9933);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .counter-card {
+      background: #fff9e6;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+      width: 350px;
+    }
+
+    h2 {
+      color: #cc6600;
+      margin-bottom: 20px;
+    }
+
+    .progress-circle {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 20px;
+    }
+
+    .progress-circle svg {
+      transform: rotate(-90deg);
+    }
+
+    .progress-circle circle {
+      fill: none;
+      stroke-width: 15;
+      stroke-linecap: round;
+    }
+
+    .progress-bg {
+      stroke: #ffe066;
+    }
+
+    .progress-bar {
+      stroke: #ff8000;
+      stroke-dasharray: 440;
+      stroke-dashoffset: 440;
+      transition: stroke-dashoffset 0.5s ease;
+    }
+
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      font-weight: bold;
+      color: #cc5500;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 6px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(to right, #ff9933, #ff6600);
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    input {
+      padding: 8px;
+      border: 1px solid #cc6600;
+      border-radius: 8px;
+      width: 120px;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    #back{
+      text-decoration: none;
+      color: aliceblue;
+    }
+
+    .note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #996600;
+    }
+  </style>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+</head>
+<body>
+  
+  <div class="counter-card">
+    <h2>Pradakshina Counter 🙏</h2>
+
+    <div class="progress-circle">
+      <svg width="150" height="150">
+        <circle class="progress-bg" cx="75" cy="75" r="70"></circle>
+        <circle class="progress-bar" cx="75" cy="75" r="70"></circle>
+      </svg>
+      <div class="progress-text" id="progress-text">0/0</div>
+    </div>
+
+    <input type="number" id="targetInput" placeholder="Set Target">
+    <button onclick="setTarget()">Set Target</button>
+    <br><br>
+    <button onclick="increment()">+1 Round</button>
+    <button class="reset-btn" onclick="resetCounter()">Reset</button>
+
+    <p class="note">Progress saves automatically & resets daily 🌅</p>
+
+    <button class="reset-btn"><a href="index.html" id="back">Back</a></button>
+  </div>
+
+  <script>
+    let count = 0;
+    let maxRounds = 0;
+
+    // Load saved data
+    function loadProgress() {
+      const savedDate = localStorage.getItem("pradakshinaDate");
+      const today = new Date().toDateString();
+
+      if (savedDate === today) {
+        count = parseInt(localStorage.getItem("pradakshinaCount")) || 0;
+        maxRounds = parseInt(localStorage.getItem("pradakshinaTarget")) || 0;
+      } else {
+        count = 0;
+        maxRounds = 0;
+        localStorage.setItem("pradakshinaDate", today);
+        localStorage.setItem("pradakshinaCount", 0);
+        localStorage.setItem("pradakshinaTarget", 0);
+      }
+      updateUI();
+    }
+
+    function setTarget() {
+      const input = document.getElementById("targetInput").value;
+      if (input > 0) {
+        maxRounds = parseInt(input);
+        count = 0;
+        localStorage.setItem("pradakshinaTarget", maxRounds);
+        localStorage.setItem("pradakshinaCount", count);
+        updateUI();
+      }
+    }
+
+    function increment() {
+      if (count < maxRounds) {
+        count++;
+        localStorage.setItem("pradakshinaCount", count);
+        updateUI();
+      }
+    }
+
+    function resetCounter() {
+      count = 0;
+      localStorage.setItem("pradakshinaCount", 0);
+      updateUI();
+    }
+
+    function updateUI() {
+      const circle = document.querySelector(".progress-bar");
+      const text = document.getElementById("progress-text");
+      const progress = maxRounds > 0 ? (count / maxRounds) * 440 : 0;
+      circle.style.strokeDashoffset = 440 - progress;
+      text.textContent = `${count}/${maxRounds}`;
+    }
+
+    loadProgress();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Devotion App</title>
+  <link rel="stylesheet" href="style1.css">
+
+  <!-- Favicon (uses same logo as header) -->
+  <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="logo1.png" alt="Devotion Logo">
+    </div>
+
+    <h2>🪔 Devotion</h2>
+    <nav class="side-nav">
+       <a href="index1.html" class="side-link">📖 Stotras</a>
+      <a href="japa-mala.html" class="side-link">🧘 Japa Mala</a>
+      <a href="panchang.html" class="side-link">📅 Panchang</a>
+      <a href="pradakshina-counter.html" class="side-link">🔄 Pradakshina</a>
+      <a href="daily-image.html" class="side-link">🌄 Daily Image</a>
+     
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <section class="welcome">
+      <h1>🙏 Welcome to Om Marga</h1>
+      <p>"May your day be filled with peace, positivity, and divine blessings."</p>
+      <img id="dailyImage" alt="Devotional" class="welcome-img">
+    </section>
+
+    <footer>
+      <p>Built with devotion 💖</p>
+    </footer>
+  </main>
+
+  <!-- JavaScript for daily image -->
+  <script>
+    const images = [
+      "monday.jpg",
+      "tuesday.jpg",
+      "wednesday.jpg",
+      "thursday.jpg",
+      "friday.jpg",
+      "saturday.jpg",
+      "sunday.jpg"
+    ];
+
+    const today = new Date().getDay();
+    const index = today === 0 ? 6 : today - 1;
+    document.getElementById("dailyImage").src = images[index];
+  </script>
+</body>
+</html>

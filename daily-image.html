@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Devotional Image</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #ffcc33, #ff9933);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    /* Back Button */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(to right, #ff9933, #ff6600);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .image-card {
+      background: #fff9e6;
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+      width: 420px;
+      margin-top: 50px;
+    }
+
+    h2 {
+      color: #cc6600;
+      margin-bottom: 15px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+      border: 4px solid #ffcc33;
+    }
+
+    .caption {
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #cc5500;
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">⬅ Back</a>
+
+  <!-- Daily Image Card -->
+  <div class="image-card">
+    <h2>🌸 Daily Devotional Image 🙏</h2>
+    <img id="dailyImage" alt="Devotional Image">
+    <div class="caption" id="caption">Today’s Divine Blessing</div>
+  </div>
+
+  <script>
+    const images = [
+      "monday.jpg",    // Monday
+      "tuesday.jpg",   // Tuesday
+      "wednesday.jpg", // Wednesday
+      "thursday.jpg",  // Thursday
+      "friday.jpg",    // Friday
+      "saturday.jpg",  // Saturday
+      "sunday.jpg"     // Sunday
+    ];
+
+    const captions = [
+      "🌞 Blessed Monday – Start your week with peace 🙏",
+      "🌸 Graceful Tuesday – Stay calm and divine ✨",
+      "🌼 Joyful Wednesday – Halfway with devotion 💖",
+      "🌿 Spiritual Thursday – Embrace positivity 🌺",
+      "🌟 Divine Friday – End your week with gratitude 🙌",
+      "🔥 Sacred Saturday – Stay strong in devotion 🌻",
+      "🌅 Peaceful Sunday – Rest in divine blessings 🕊️"
+    ];
+
+    function loadDailyImage() {
+      const today = new Date();
+      const day = today.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+      const index = day === 0 ? 6 : day - 1; // Adjust for Monday=0, Sunday=6
+      document.getElementById("dailyImage").src = images[index];
+      document.getElementById("caption").textContent = captions[index];
+    }
+
+    loadDailyImage();
+  </script>
+
+</body>
+</html>

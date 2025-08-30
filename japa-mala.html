@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Japa Mala Counter 📿</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #ffcc33, #ff9933);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .counter-card {
+      background: #fff9e6;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+      width: 360px;
+    }
+
+    h2 {
+      color: #cc6600;
+      margin-bottom: 20px;
+    }
+
+    /* Progress Circle */
+    .progress-circle {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 20px;
+    }
+
+    .progress-circle svg {
+      transform: rotate(-90deg);
+    }
+
+    .progress-circle circle {
+      fill: none;
+      stroke-width: 15;
+      stroke-linecap: round;
+    }
+
+    .progress-bg {
+      stroke: #ffe066;
+    }
+
+    .progress-bar {
+      stroke: #ff8000;
+      stroke-dasharray: 565;
+      stroke-dashoffset: 565;
+      transition: stroke-dashoffset 0.4s ease;
+    }
+
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      font-weight: bold;
+      color: #cc5500;
+    }
+
+    button {
+      padding: 14px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(to right, #ff9933, #ff6600);
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .reset-btn {
+      background: #ffaa33;
+    }
+
+    .note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #996600;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: gold;
+      animation: fall 3s linear forwards;
+    }
+
+    #back{
+      text-decoration: none;
+      color: aliceblue;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+</head>
+<body>
+
+  <div class="counter-card">
+    <h2>Japa Mala Counter 📿</h2>
+
+    <!-- Progress Circle -->
+    <div class="progress-circle">
+      <svg width="180" height="180">
+        <circle class="progress-bg" cx="90" cy="90" r="85"></circle>
+        <circle class="progress-bar" cx="90" cy="90" r="85"></circle>
+      </svg>
+      <div class="progress-text" id="progress-text">0 / 108</div>
+    </div>
+
+    <div class="count-display" id="mala-count">Completed Malas: 0</div>
+
+    <button onclick="countBead()">Count Bead</button>
+    <button class="reset-btn" onclick="resetMala()">Reset</button>
+
+    <p class="note">Progress saves automatically 📿</p>
+    <button class="reset-btn"><a href="index.html" id="back">Back</a></button>
+  </div>
+
+  <script>
+    let beads = 0;
+    let malas = 0;
+    const maxBeads = 108;
+
+    function loadProgress() {
+      beads = parseInt(localStorage.getItem("beadCount")) || 0;
+      malas = parseInt(localStorage.getItem("malaCount")) || 0;
+      updateUI();
+    }
+
+    function countBead() {
+      beads++;
+      playFeedback();
+
+      if (beads >= maxBeads) {
+        beads = 0;
+        malas++;
+        saveProgress();
+        updateUI();
+        alert("🎉 You completed 1 Mala (108 beads)!");
+        launchConfetti();
+        return;
+      }
+      saveProgress();
+      updateUI();
+    }
+
+    function resetMala() {
+      beads = 0;
+      malas = 0;
+      saveProgress();
+      updateUI();
+    }
+
+    function saveProgress() {
+      localStorage.setItem("beadCount", beads);
+      localStorage.setItem("malaCount", malas);
+    }
+
+    function updateUI() {
+      document.getElementById("progress-text").textContent = `${beads} / 108`;
+      document.getElementById("mala-count").textContent = `Completed Malas: ${malas}`;
+
+      const circle = document.querySelector(".progress-bar");
+      const progress = (beads / maxBeads) * 565;
+      circle.style.strokeDashoffset = 565 - progress;
+    }
+
+    // Feedback (Sound + Vibration)
+    function playFeedback() {
+      // Vibration (mobile)
+      if (navigator.vibrate) {
+        navigator.vibrate(100);
+      }
+
+      // Beep sound
+      const beep = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+      beep.play();
+    }
+
+    // Confetti animation
+    function launchConfetti() {
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.background = ["#ff6600", "#ffcc33", "#ffaa33"][Math.floor(Math.random() * 3)];
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+
+    loadProgress();
+  </script>
+
+</body>
+</html>
